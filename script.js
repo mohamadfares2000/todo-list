@@ -1,62 +1,77 @@
-window.addEventListener('load', () => {
-	const form = document.querySelector("#new-task-form");
-	const input = document.querySelector("#new-task-input");
-	const list_el = document.querySelector("#tasks");
+const addInput = document.querySelector('#add-task')
 
-	form.addEventListener('submit', (e) => {
-		e.preventDefault();
+const addBtn =  document.querySelector('#add-btn')
+const delTaskBtn  =  document.querySelector('#del-btn')
 
-		const task = input.value;
+const renameBtn = document.querySelector('.rename-task')
+const updateBtn = document.querySelector('.update-task')
+const delBtn = document.querySelector('.del-task')
 
-		const task_el = document.createElement('div');
-		task_el.classList.add('task');
+const newTasks = document.querySelector('.new-tasks')
 
-		const task_content_el = document.createElement('div');
-		task_content_el.classList.add('content');
+delTaskBtn.addEventListener('click', () => {
+    addInput.value = ''
+})
 
-		task_el.appendChild(task_content_el);
 
-		const task_input_el = document.createElement('input');
-		task_input_el.classList.add('text');
-		task_input_el.type = 'text';
-		task_input_el.value = task;
-		task_input_el.setAttribute('readonly', 'readonly');
+addBtn.addEventListener('click', (e)=> {
+    let todo = addInput.value
+    todo = todo.trim()
+    if (todo==''){
+        alert('No task is added ')
+    }else{
+        console.log(todo)
+        addTodo(todo)
+        addInput.value = ''
+        updateTodo()
+    }
+})
 
-		task_content_el.appendChild(task_input_el);
 
-		const task_actions_el = document.createElement('div');
-		task_actions_el.classList.add('actions');
-		
-		const task_edit_el = document.createElement('button');
-		task_edit_el.classList.add('edit');
-		task_edit_el.innerText = 'Edit';
 
-		const task_delete_el = document.createElement('button');
-		task_delete_el.classList.add('delete');
-		task_delete_el.innerText = 'Delete';
+function addTodo(todo){
+    let todoTask  = ` 
+                <div class="task">
+					<input type="text" id="added-task" name='todo' disabled value="${todo}">
+                    <div>
+                        <input type="button" value="✔️" name='update' title='update task' class="update-task">
+                        <input type="button" value="✏️" name='rename' title='rename task' class="rename-task">
+                        <input type="button" value="❌" name='delete' title='delete task' class="del-task">
+                    </div>
+                </div>
+                ` 
+    newTasks.innerHTML += todoTask
 
-		task_actions_el.appendChild(task_edit_el);
-		task_actions_el.appendChild(task_delete_el);
+}
 
-		task_el.appendChild(task_actions_el);
 
-		list_el.appendChild(task_el);
+function updateTodo(){
+    
 
-		input.value = '';
+    let task  = document.querySelectorAll('.task')
 
-		task_edit_el.addEventListener('click', (e) => {
-			if (task_edit_el.innerText.toLowerCase() == "edit") {
-				task_edit_el.innerText = "Save";
-				task_input_el.removeAttribute("readonly");
-				task_input_el.focus();
-			} else {
-				task_edit_el.innerText = "Edit";
-				task_input_el.setAttribute("readonly", "readonly");
-			}
-		});
+    task.forEach((t) => {
+        // console.log(t.children)
+        t.addEventListener('click', e =>{
 
-		task_delete_el.addEventListener('click', (e) => {
-			list_el.removeChild(task_el);
-		});
-	});
-});
+            if(e.target.classList.contains('rename-task')){
+                
+                console.log('rename')
+                if (t.children[0].disabled){
+                    t.children[0].disabled = false
+                }
+            }else if(e.target.classList.contains('del-task')) {
+                t.remove()
+            }
+            
+            else if (e.target.classList.contains('update-task')){
+                console.log(t.children[0].disabled)
+                if (t.children[0].disabled == false){
+                    t.children[0].disabled = true
+                }
+            }
+        })
+
+    })
+    
+}
