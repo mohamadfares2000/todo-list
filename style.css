@@ -1,77 +1,107 @@
-const addInput = document.querySelector('#add-task')
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
 
-const addBtn =  document.querySelector('#add-btn')
-const delTaskBtn  =  document.querySelector('#del-btn')
+body{
+    background:linear-gradient(90deg ,#ec2c2c,#d29e62,#e9993d );
+    font-family: Poppins, sans-serif
+}
 
-const renameBtn = document.querySelector('.rename-task')
-const updateBtn = document.querySelector('.update-task')
-const delBtn = document.querySelector('.del-task')
+.container{
+    margin: 0 auto;
+    text-align: center;
+    width: 70%;
+    max-width: 600px;
+    padding: 60px 0;
+    color: white;
+}
 
-const newTasks = document.querySelector('.new-tasks')
+#line{
+    width:30px;
+    height:2px;
+    background-color: white;
+    margin: 0 auto;
+    border-radius: 10px;
+    margin-bottom: 20px;
 
-delTaskBtn.addEventListener('click', () => {
-    addInput.value = ''
-})
+}
+.flex-button{
+    display: inline;
+    width: 100%;
+}
 
+input{
+    border:none;
+}
+input[type='text']{
+    width: 70%;
+    padding: 5px 10px;
+    outline: none;
+    font-size: 1.2rem;
+    margin-right: -4px;
+    color: rgb(0, 0, 0);
+    background-color: #ffffff;
+    cursor:pointer;
+}
+input[type='text']:disabled{
+    cursor:default;
+    color: rgb(227, 213, 213);
+    background-color: rgb(147, 135, 135);
+}
+input[type='button']{
+    padding: 5px;
+    font-size: 1.04rem;
+    color:white;
+    margin: 0 -3px;
+}
+#add-btn{
+    margin-right: -4px;
+    background-color: #e9adad;
+}
 
-addBtn.addEventListener('click', (e)=> {
-    let todo = addInput.value
-    todo = todo.trim()
-    if (todo==''){
-        alert('No task is added ')
-    }else{
-        console.log(todo)
-        addTodo(todo)
-        addInput.value = ''
-        updateTodo()
-    }
-})
+#del-btn{
+    background-color: #540a0a;
+}
 
-
-
-function addTodo(todo){
-    let todoTask  = ` 
-                <div class="task">
-					<input type="text" id="added-task" name='todo' disabled value="${todo}">
-                    <div>
-                        <input type="button" value="✔️" name='update' title='update task' class="update-task">
-                        <input type="button" value="✏️" name='rename' title='rename task' class="rename-task">
-                        <input type="button" value="❌" name='delete' title='delete task' class="del-task">
-                    </div>
-                </div>
-                ` 
-    newTasks.innerHTML += todoTask
-
+input[type='button']:active{
+    transform: scale(.94);
 }
 
 
-function updateTodo(){
+.new-tasks{
+    margin: 25px auto;
+}
+.update-task{
+    margin-left: 10px;
+    background-color: #158c47;
+}
+.rename-task{
+    background-color: #e9adad;
+}
+
+
+.del-task{
+    background-color: #540a0a;
+}
+
+.task{
+    width: 92%;
+    margin: 10px auto;
+    display: flex;
+    justify-content: center;
     
+}
 
-    let task  = document.querySelectorAll('.task')
 
-    task.forEach((t) => {
-        // console.log(t.children)
-        t.addEventListener('click', e =>{
-
-            if(e.target.classList.contains('rename-task')){
-                
-                console.log('rename')
-                if (t.children[0].disabled){
-                    t.children[0].disabled = false
-                }
-            }else if(e.target.classList.contains('del-task')) {
-                t.remove()
-            }
-            
-            else if (e.target.classList.contains('update-task')){
-                console.log(t.children[0].disabled)
-                if (t.children[0].disabled == false){
-                    t.children[0].disabled = true
-                }
-            }
-        })
-
-    })
-    
+@media screen and (max-width:450px) {
+    .task{
+        display: inline;
+    }
+    .flex-button{
+        display: block;
+        
+    width: 100%;
+    }
 }
